@@ -3,12 +3,12 @@ const { readFromFile, readAndAppend } = require('../helpers/fsUtils.js');
 const { v4: uuidv4 } = require('uuid');
 
 // GET Route for retrieving all the notes
-notes.get('/', (req, res) => {
+notes.get('/notes', (req, res) => {
     readFromFile('./db/db.json').then((data) => res.json(JSON.parse(data)));
   });
   
 // POST Route for a new note
-notes.post('/', (req, res) => {
+notes.post('/notes', (req, res) => {
     console.log(req.body);
 
     const { title, text } = req.body;
@@ -17,7 +17,7 @@ notes.post('/', (req, res) => {
         const newNote = {
         title,
         text,
-        note_id: uuidv4(),
+        id: uuidv4(),
         };
 
         readAndAppend(newNote, './db/db.json');
@@ -26,5 +26,11 @@ notes.post('/', (req, res) => {
         res.error('Error in adding new note');
     }
 });
+
+// DELETE Route to delete a note
+notes.delete('/notes/:id', (req, res) => {
+    deleteNote(id);
+  });
+  
 
   module.exports = notes;
