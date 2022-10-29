@@ -1,4 +1,5 @@
 const notes = require('express').Router();
+const { readFromFile, readAndAppend } = require('../helpers/fsUtils.js');
 
 // GET Route for retrieving all the notes
 notes.get('/', (req, res) => {
@@ -12,12 +13,12 @@ notes.post('/', (req, res) => {
     const { title, text } = req.body;
 
     if (req.body) {
-        const newTip = {
+        const newNote = {
         title,
         text
         };
 
-        readAndAppend(newTip, '../db/db.json');
+        readAndAppend(newNote, '../db/db.json');
         res.json(`Tip added successfully 🚀`);
     } else {
         res.error('Error in adding new note');
